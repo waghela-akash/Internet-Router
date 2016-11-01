@@ -128,7 +128,7 @@ void sr_handlepacket(struct sr_instance* sr,
   assert(interface);
 
   printf("*** -> Received packet of length %d\n",len);
-
+  print_hdrs(packet, len);
   /* TODO: Add forwarding logic here */
 
   sr_ethernet_hdr_t *ehdr;
@@ -203,7 +203,7 @@ void sr_handlepacket(struct sr_instance* sr,
           memcpy(ehdr->ether_dhost, (uint8_t *)senderHA, sizeof(uint8_t)*ETHER_ADDR_LEN);
 
           memcpy(pkt, ehdr, sizeof(uint8_t)*currPkt->len);
-          print_hdrs(pkt, currPkt->len);
+          /*print_hdrs(pkt, currPkt->len);*/
           sr_send_packet(sr, pkt, currPkt->len, entry);
 
           currPkt = currPkt->next;
@@ -231,14 +231,14 @@ void sr_handlepacket(struct sr_instance* sr,
     struct sr_rt *lpm = sr_longest_prefix(sr->routing_table, dstIP);
 
     print_addr_ip_int(dstIP);
-    sr_print_routing_table(sr);
+    /*sr_print_routing_table(sr);*/
     
     if(lpm==NULL){
-      printf("------> Not Reachable Send ICMP error type 3 code 0\n");
+      printf("------> IP Not Reachable Send ICMP error type 3 code 0\n");
       sr_icmp_send(packet, dstIP, 3, 0, sr);
     }
     else{
-      printf("------> Found ");
+      printf("------> IP Found ");
       sr_print_routing_entry(lpm);
       if(entry==NULL){
         printf("------> IP Not in my interface\n");
@@ -281,6 +281,7 @@ void sr_handlepacket(struct sr_instance* sr,
           struct sr_icmp_hdr_t *icmp = (sr_icmp_hdr_t *)(packet + offset); 
           print_hdr_icmp(icmp);
           /*For an echo, send a reply*/
+
         }
         else{
           printf("------> Not an ICMP packet, Send ICMP error Port unreachable (type 3, code 3)\n");
@@ -300,17 +301,19 @@ void sr_handlepacket(struct sr_instance* sr,
 void handle_arpreq(struct sr_instance* sr, struct sr_arpreq *req){
   /* TODO: Fill this in */
   time_t now = time(NULL);
-    if(difftime(now,req->sent) > 1.0){
-        if(req->times_sent >= 5){
-            host_unreachable(sr, req);
-            sr_arpreq_destroy(sr, req);
-        }
-        else{
-            sr_arpreq_send(sr, req->ip);
-            req->sent = now;
-            req->times_sent++;
-        }
-    }
+  if(difftime(now,req->sent) > 1.0){
+      if(req->times_sent >= 5){
+          host_unreachable(sr, req);
+          sr_arpreq_destroy(sr, req);
+      }
+      else{
+          sr_arpreq_send(sr, req->ip);
+          req->sent = now;
+          req->times_sent++;
+      }
+  }
+  else
+    printf("#### Time Not elapsed\n");
   
 }
 
@@ -366,11 +369,6 @@ void sr_arpreq_send(struct sr_instance *sr, uint32_t ip){
 
 }
 
-void sr_arpreply_send(struct sr_instance *sr, uint32_t ip){
-
-}
-
-
 void sr_icmp_send(uint8_t *ipPacket, uint32_t destIP,uint8_t type, uint8_t code, struct sr_instance* sr){
 
   printf("------> Got ICMP error of Type: %d, Code: %d\n",type, code);
@@ -404,7 +402,7 @@ void sr_icmp_send(uint8_t *ipPacket, uint32_t destIP,uint8_t type, uint8_t code,
     struct sr_arpentry *arpQuery = sr_arpcache_lookup(&(sr->cache), nextHop);
 
     struct sr_if *entry = sr_get_interface(sr, lpm->interface);
-    memcpy(ehdr->ether_shost, (uint8_t)entry->addr, sizeof(uint8_t)*ETHER_ADDR_LEN);
+    memcpy(ehdr->ether_shost, (uint8_t *)entry->addr, sizeof(uint8_t)*ETHER_ADDR_LEN);
 
     iphdr->ip_src = entry->ip;
     iphdr->ip_sum = 0;
@@ -417,6 +415,7 @@ void sr_icmp_send(uint8_t *ipPacket, uint32_t destIP,uint8_t type, uint8_t code,
       printf("------> Next-Hop not in cache, send ARP request\n");
 
       struct sr_arpreq *nextHopARP = sr_arpcache_queuereq(&(sr->cache), nextHop, packet, packetlen, &(lpm->interface));
+
       handle_arpreq(sr, nextHopARP);
 
     }

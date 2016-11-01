@@ -1,0 +1,110 @@
+Using VNS sr stub code revised 2009-10-14 (rev 0.20)
+Loading routing table from server, clear local routing table.
+Loading routing table
+---------------------------------------------
+Destination	Gateway		Mask	Iface
+10.0.1.100		10.0.1.100	255.255.255.255	eth3
+192.168.2.2		192.168.2.2	255.255.255.255	eth1
+172.64.3.10		172.64.3.10	255.255.255.255	eth2
+---------------------------------------------
+Client cse425 connecting to Server localhost:8888
+Requesting topology 0
+successfully authenticated as cse425
+Loading routing table from server, clear local routing table.
+Loading routing table
+---------------------------------------------
+Destination	Gateway		Mask	Iface
+10.0.1.100		10.0.1.100	255.255.255.255	eth3
+192.168.2.2		192.168.2.2	255.255.255.255	eth1
+172.64.3.10		172.64.3.10	255.255.255.255	eth2
+---------------------------------------------
+Router interfaces:
+eth3	HWaddr26:9e:73:99:89:ce
+	inet addr 10.0.1.1
+eth2	HWaddr66:18:bb:77:27:be
+	inet addr 172.64.3.1
+eth1	HWaddr6e:86:42:e1:c6:df
+	inet addr 192.168.2.1
+ <-- Ready to process packets --> 
+*** -> Received packet of length 74
+------> Received IP packet
+------> IP Found 192.168.2.2		192.168.2.2	255.255.255.255	eth1
+------> IP Not in my interface
+------> Timed Out Send ICMP error type 11 code 0
+------> Got ICMP error of Type: 11, Code: 0
+------> Function Coming Soon...
+------> Found LPM
+------> Next-Hop not in cache, send ARP request
+------> Sending ARP request for
+------> Send ICMP error processed
+*** -> Received packet of length 74
+------> Received IP packet
+------> IP Found 192.168.2.2		192.168.2.2	255.255.255.255	eth1
+------> IP Not in my interface
+------> Timed Out Send ICMP error type 11 code 0
+------> Got ICMP error of Type: 11, Code: 0
+------> Function Coming Soon...
+------> Found LPM
+------> Next-Hop not in cache, send ARP request
+#### Time Not elapsed
+------> Send ICMP error processed
+*** -> Received packet of length 74
+------> Received IP packet
+------> IP Found 192.168.2.2		192.168.2.2	255.255.255.255	eth1
+------> IP Not in my interface
+------> Timed Out Send ICMP error type 11 code 0
+------> Got ICMP error of Type: 11, Code: 0
+------> Function Coming Soon...
+------> Found LPM
+------> Next-Hop not in cache, send ARP request
+#### Time Not elapsed
+------> Send ICMP error processed
+*** -> Received packet of length 74
+------> Received IP packet
+------> IP Found 192.168.2.2		192.168.2.2	255.255.255.255	eth1
+------> IP Not in my interface
+------> Next-Hop not in cache, send ARP request
+#### Time Not elapsed
+*** -> Received packet of length 74
+------> Received IP packet
+------> IP Found 192.168.2.2		192.168.2.2	255.255.255.255	eth1
+------> IP Not in my interface
+------> Next-Hop not in cache, send ARP request
+#### Time Not elapsed
+*** -> Received packet of length 74
+------> Received IP packet
+------> IP Found 192.168.2.2		192.168.2.2	255.255.255.255	eth1
+------> IP Not in my interface
+------> Next-Hop not in cache, send ARP request
+#### Time Not elapsed
+*** -> Received packet of length 74
+------> Received IP packet
+------> IP Found 192.168.2.2		192.168.2.2	255.255.255.255	eth1
+------> IP Not in my interface
+------> Next-Hop not in cache, send ARP request
+#### Time Not elapsed
+*** -> Received packet of length 74
+------> Received IP packet
+------> IP Found 192.168.2.2		192.168.2.2	255.255.255.255	eth1
+------> IP Not in my interface
+------> Next-Hop not in cache, send ARP request
+#### Time Not elapsed
+*** -> Received packet of length 74
+------> Received IP packet
+------> IP Found 192.168.2.2		192.168.2.2	255.255.255.255	eth1
+------> IP Not in my interface
+------> Next-Hop not in cache, send ARP request
+#### Time Not elapsed
+*** -> Received packet of length 74
+------> Received IP packet
+------> IP Found 192.168.2.2		192.168.2.2	255.255.255.255	eth1
+------> IP Not in my interface
+------> Next-Hop not in cache, send ARP request
+#### Time Not elapsed
+*** -> Received packet of length 74
+------> Received IP packet
+------> IP Found 192.168.2.2		192.168.2.2	255.255.255.255	eth1
+------> IP Not in my interface
+------> Next-Hop not in cache, send ARP request
+#### Time Not elapsed
+**
