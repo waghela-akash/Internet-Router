@@ -78,4 +78,12 @@ void sr_print_if_list(struct sr_instance* );
 /* -- sr_arpcache.c and sr_router.c -- */
 void handle_arpreq(struct sr_instance* , struct sr_arpreq* );
 
+/* My functons */
+struct sr_if* sr_get_interface_ip(struct sr_instance* sr, uint32_t name);
+void handle_arpreq(struct sr_instance* sr, struct sr_arpreq *req);
+void host_unreachable(struct sr_instance* sr, struct sr_arpreq* req);
+void sr_arpreq_send(struct sr_instance *sr, uint32_t ip);
+void sr_arpreply_send(struct sr_instance *sr, uint32_t ip);
+void sr_icmp_send(uint8_t *ipPacket, uint32_t destIP,uint8_t type, uint8_t code, struct sr_instance* sr);
+
 #endif /* SR_ROUTER_H */

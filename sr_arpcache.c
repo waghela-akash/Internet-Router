@@ -17,7 +17,7 @@
 */
 void sr_arpcache_sweepreqs(struct sr_instance *sr) { 
   /* TODO: Fill this in */
-    sr_arpreq *next_req, *req = sr->cache.requests;
+    struct sr_arpreq *next_req, *req = sr->cache.requests;
     while(req!=NULL){
         next_req = req->next;
         handle_arpreq(sr, req);
