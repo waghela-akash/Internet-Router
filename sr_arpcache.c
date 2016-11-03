@@ -91,8 +91,19 @@ struct sr_arpreq *sr_arpcache_queuereq(struct sr_arpcache *cache,
         new_pkt->len = packet_len;
 		new_pkt->iface = (char *)malloc(sr_IFACE_NAMELEN);
         strncpy(new_pkt->iface, iface, sr_IFACE_NAMELEN);
-        new_pkt->next = req->packets;
-        req->packets = new_pkt;
+        /*new_pkt->next = req->packets;
+        req->packets = new_pkt;*/
+        /*Why do this ?, For traceroute to work reverse the list*/
+        new_pkt->next = NULL;
+        struct sr_packet *prev=NULL, *curr = req->packets;
+        while(curr!=NULL){
+            prev=curr;
+            curr=curr->next;
+        }
+        if(prev!=NULL)
+            prev->next=new_pkt;
+        else
+            req->packets=new_pkt;
     }
     
     pthread_mutex_unlock(&(cache->lock));
