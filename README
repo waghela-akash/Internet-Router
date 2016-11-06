@@ -1,0 +1,14 @@
+Design Choices Made:
+
+-> In struct sr_arpentry *sr_arpcache_lookup(struct sr_arpcache *cache, uint32_t ip);
+
+Instead of adding the request packet to the front added to the end for a given cache, so it would process the requests
+in order of their arrival. This is necessary for trace-route to function correctly. If not done, this
+then while the IP request for the first IP packet is received(i.e. one with TTL=1), an ARP request is
+sent to the next-hop meanwhile between the response sent and received more packets arrive with 
+TTL values greater than 1. During response these packets will get processed first and the client will
+not get any response to this packets thereby printing '*' on client side. If request list is reversed
+then the order or processing each request is same as order of arrival of request, thereby avoiding the
+above problem.
+Note: This could also have been achieved by reversing the linked list of request during processing giving amortized
+O(1) complexity, but a simpler implementation is chosen here to display the idea.  
